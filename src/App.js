@@ -8,7 +8,8 @@ import Navbar from "./comp/Navbar"
 import Home from "./comp/Home"
 import About from "./comp/About"
 
-// React router
+// React router, jag är medveten att jag använder gamla versionen av react route. 
+// Om jag skulle göra om uppgiften skulle jag använde mig av react route v6.  
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
 
 // Function
@@ -39,7 +40,7 @@ function App() {
 
     useEffect(() => {
         localStorage.setItem("tasks", JSON.stringify(tasks));
-    }, [tasks]); // Updeteras när tasks föränddras
+    }, [tasks]); // Updeteras när tasks förändras
 
     // Alla const, görs till props som sedan kalls och används i components Add Todo
     const addTask = (task) => {
@@ -88,8 +89,7 @@ function App() {
 
             <Switch>
                 {/*Allt inom Switch, kan "byta" sida*/}
-                <Route path="/home">
-                    // Söker efter "Home.js"
+                <Route path="/home"> // Söker efter "Home.js"
                     <Home/>
                 </Route>
 
@@ -102,7 +102,7 @@ function App() {
                                 onDelete={deleteTODO}
                                 onPin={pinTODO}
                                 onToggle={toggleReminder}/>)
-                            : ("You have completed all your tasks! 🎉")}
+                            : ("Congrats! You have no task too do 🎉")}
                     </div>
                 </Route>
 
