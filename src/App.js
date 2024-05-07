@@ -8,6 +8,9 @@ import Navbar from "./comp/Navbar"
 import Home from "./comp/Home"
 import About from "./comp/About"
 
+import { useContext } from "react";
+import { UserContext } from "./comp/UserContext";
+
 // React router, jag är medveten att jag använder gamla versionen av react route. 
 // Om jag skulle göra om uppgiften skulle jag använde mig av react route v6.  
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
@@ -82,38 +85,41 @@ function App() {
             : task));
     };
 
+    const { isLoggedIn } = useContext(UserContext);
+
     return (
-        <Router> {/*React route*/}
-
-            <Navbar/> {/*Navbar utanför switch eftersom den behöver inte förändras.*/}
-
+        <Router>
+          <Navbar />
+          {isLoggedIn ? (
             <Switch>
-                {/*Allt inom Switch, kan "byta" sida*/}
-                <Route path="/home"> // Söker efter "Home.js"
-                    <Home/>
-                </Route>
-
-                <Route exact path="/">
-                    <div className="container">
-                        <Header/>
-                        <AddTask onAdd={addTask}/> {tasks.length > 0
-                            ? (<Tasks
-                                tasks={tasks}
-                                onDelete={deleteTODO}
-                                onPin={pinTODO}
-                                onToggle={toggleReminder}/>)
-                            : ("Congrats! You have no task too do 🎉")}
-                    </div>
-                </Route>
-
-                <Route path="/about">
-                    // Söker efter "About.js"
-                    <About/>
-                </Route>
-
+              <Route path="/home">
+                <Home />
+              </Route>
+              <Route exact path="/">
+                <div className="container">
+                  <Header />
+                  <AddTask onAdd={addTask} />
+                  {tasks.length > 0 ? (
+                    <Tasks
+                      tasks={tasks}
+                      onDelete={deleteTODO}
+                      onPin={pinTODO}
+                      onToggle={toggleReminder}
+                    />
+                  ) : (
+                    "Congrats! You have no task too do 🎉"
+                  )}
+                </div>
+              </Route>
+              <Route path="/about">
+                <About />
+              </Route>
             </Switch>
+          ) : (
+            console.log("please log in.")
+          )}
         </Router>
-    );
-}
+      );
+    };
 
 export default App;
